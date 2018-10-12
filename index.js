@@ -33,6 +33,17 @@ var resetGame = function(){
 
     //toDO ask user if they want to play again.
     //if yes, call runGame()
+    inquirer.prompt([
+        {
+            type: "confirm",
+            name: "playAgain",
+            message: "Do you want to play another game?"
+        }
+    ]).then(function(data){
+        if (data.playAgain){
+            runGame()
+        }
+    })
 }
 
 var getInput = function(){
@@ -41,7 +52,7 @@ var getInput = function(){
         {
             type: "input",
             name: "guess",
-            message: "Enter a letter.",
+            message: "Enter a letter:",
             validate: function(value){
                 //validate input before "then" so user can be prompted for valid input
 
@@ -88,9 +99,6 @@ var getInput = function(){
             }
         }
     })
-
-        
-    
 }
 
 var runGame = function() {

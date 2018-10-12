@@ -2,11 +2,11 @@ var Letter = require("./Letter");
 
 var Word = function(word){
     this.letters = []
-    this.output = []
+    
    
     //A function that returns a string representing the word. This should call the function on each letter object (the first function defined in `Letter.js`) that displays the character or an underscore and concatenate those together.
     for (var i = 0; i < word.length; i++){
-        var newLetter = new Letter(wordArr[i])
+        var newLetter = new Letter(word[i])
         this.letters.push(newLetter)
     }
 
@@ -17,17 +17,22 @@ var Word = function(word){
         }
     }
     this.showWord = function(){
-        for (i = 0; i < this.letters.length; i++) {
+        //clear each time or else it will append
+        this.output = []
+        for (var i = 0; i < this.letters.length; i++) {
             this.output.push(this.letters[i].getCharacter())
         }
-        console.log(this.output.join(" "))
+        return this.output.join(" ")
     }
     this.isSolved = function(){
-        for (i = 0; i < this.letters.length; i++) {
-            if (!letters[i].isGuessed){
+
+        for (var i = 0; i < this.letters.length; i++) {
+            if (!this.letters[i].isGuessed){
+                //if any of the letter has not been guesses, then return false and exit out of this function
                 return false;
             }
         }
+        //should only get to this line if all letters were guessed
         return true;
     }
 }

@@ -1,20 +1,9 @@
 var Word = require("./Word");
 var inquirer = require('inquirer');
 
-var wordsArr = ["goo goo dolls", "bon jovi", "hootie and the blowfish", 
-                "barenaked ladies", "fugees", "meredith brooks", 
-                "jewel", "kris kross", "chumbawamba", "soul asylum", 
-                "houe of pain","britney spears", "christina agulera", 
-                "envogue", "janet jackson", "pearl jam", "alanis morissette", 
-                "blind melon", "third eye blind", 
-                "the offspring", "foo fighters", "nine inch nails", 
-                "stone temple pilots", "vanilla ice", "savage garden", 
-                "the verve", "nirvana", "radiohead", "mariah carey", 
-                "puff daddy", "notorious big", "oasis", "outkast", 
-                "green day", "tlc", "boys ii men", "backstreet boys", 
-                "nsync", "ace of base", "weezer", "snoop dogg", "dr dre", 
-                "ice cube", "beastie boys", "run dmc", "salt n pepa", 
-                "naughty by nature", "digital underground"]
+var wordsArr = ["fugees", "jewel", "chumbawamba", "envogue",  
+                "nirvana", "radiohead", "oasis", "outkast", 
+                "tlc", "nsync", "weezer"]
 
 var randomWord = "";
 var numGuesses = 10;
@@ -24,15 +13,14 @@ var lettersGuessed = []
 var getRandomWord = function() {
     randomWord = wordsArr[Math.floor(Math.random()* wordsArr.length)];
     wordObj = new Word(randomWord);
-    console.log(wordObj.getWord())
+    console.log(wordObj.showWord())
 }
 
 var resetGame = function(){
     numGuesses = 10
     lettersGuessed = [];
 
-    //toDO ask user if they want to play again.
-    //if yes, call runGame()
+    //Ask user if they want to play again.
     inquirer.prompt([
         {
             type: "confirm",
@@ -72,20 +60,31 @@ var getInput = function(){
             }
         }
     ]).then(function(data) {
-        //Decrease the amount of guesses left
-        numGuesses--
-        
+       
         //Get current guess from data object and make sure it's always lower case
         var currentGuess = data.guess.toLowerCase()
 
         //store the current guess for future validation
         lettersGuessed.push(currentGuess)
 
+        var beforeGuess = wordObj.showWord()
+
         //Check to see if guess is in the word
         wordObj.checkGuess(currentGuess);
 
+        var afterGuess = wordObj.showWord()
+
+        //Decrease the amount of guesses left if the guess was wrong
+        if (beforeGuess === afterGuess){
+            numGuesses--
+            console.log("Lives remaining: " + numGuesses)
+        } 
+
+        //show word with guesses to user
+        console.log(afterGuess)
+    
         //check to see if won
-        if (wordObj.isSolved) {
+        if (wordObj.isSolved()) {
             console.log("You won!")  
             resetGame()  
         } else {

@@ -17,10 +17,32 @@ var wordsArr = ["goo goo dolls", "bon jovi", "hootie and the blowfish",
                 "naughty by nature", "digital underground"]
 
 var randomWord = "";
+var numGuesses = 10;
 
 //Randomly selects a word and uses the `Word` constructor to store it
 var getRandomWord = function() {
     randomWord = wordsArr[Math.floor(Math.random()* wordsArr.length)];
     word = new Word(randomWord);
 }
+
+var checkGuess = fuction(guess) {
+
+}
+
 //Prompts the user for each guess and keeps track of the user's remaining guesses
+var getInput = function(){
+    if (numGuesses){
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "guess",
+                message: "Enter a letter."
+            }
+        ]).then(function(data) {
+            numGuesses--
+            checkGuess(data);
+        })
+    } else {
+        //game over
+    }
+}

@@ -18,22 +18,22 @@ var wordsArr = ["goo goo dolls", "bon jovi", "hootie and the blowfish",
 
 var randomWord = "";
 var numGuesses = 10;
+var word = {}
 
-//Randomly selects a word and uses the `Word` constructor to store it
 var getRandomWord = function() {
     randomWord = wordsArr[Math.floor(Math.random()* wordsArr.length)];
     word = new Word(randomWord);
+    console.log(word.getWord())
 }
 
 var checkGuess = function(guess) {
-
+    word.checkGuess(guess.toLowerCase());
 }
 
 var resetGame = function(){
     numGuesses = 10
 }
 
-//Prompts the user for each guess and keeps track of the user's remaining guesses
 var getInput = function(){
     if (numGuesses){
         inquirer.prompt([
@@ -57,11 +57,24 @@ var getInput = function(){
             numGuesses--
             checkGuess(data.guess);
             //recursion, call funciton again until game is over
+            //TODO: check to see if won before guesses run out
             getInput();
         })
     } else {
-        //game over
+        //game over - ran out of guesses - lost the game
+        console.log("You lost!")
         resetGame()
     }
 }
 
+var runGame = function() {
+    console.log("Welcome to 90's Artist Word Guess Game!")
+    //Randomly selects a word and uses the `Word` constructor to store it
+    getRandomWord();
+
+    //Prompts the user for each guess and keeps track of the user's remaining guesses
+    getInput();
+}
+
+
+runGame()

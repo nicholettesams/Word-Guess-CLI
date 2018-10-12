@@ -25,8 +25,12 @@ var getRandomWord = function() {
     word = new Word(randomWord);
 }
 
-var checkGuess = fuction(guess) {
+var checkGuess = function(guess) {
 
+}
+
+var resetGame = function(){
+    numGuesses = 10
 }
 
 //Prompts the user for each guess and keeps track of the user's remaining guesses
@@ -36,13 +40,19 @@ var getInput = function(){
             {
                 type: "input",
                 name: "guess",
-                message: "Enter a letter."
+                message: "Enter a letter.",
+                validate: function(value){
+                    if (value.length != 1){
+                        return "\nPlease enter 1 character."
+                    }
+                }
             }
         ]).then(function(data) {
             numGuesses--
-            checkGuess(data);
+            checkGuess(data.guess);
         })
     } else {
         //game over
+        resetGame()
     }
 }

@@ -18,20 +18,21 @@ var wordsArr = ["goo goo dolls", "bon jovi", "hootie and the blowfish",
 
 var randomWord = "";
 var numGuesses = 10;
-var word = {}
+var wordObj = {}
+var lettersGuessed = []
 
 var getRandomWord = function() {
     randomWord = wordsArr[Math.floor(Math.random()* wordsArr.length)];
-    word = new Word(randomWord);
-    console.log(word.getWord())
-}
-
-var checkGuess = function(guess) {
-    word.checkGuess(guess.toLowerCase());
+    wordObj = new Word(randomWord);
+    console.log(wordObj.getWord())
 }
 
 var resetGame = function(){
     numGuesses = 10
+    lettersGuessed = [];
+
+    //toDO ask user if they want to play again.
+    //if yes, call runGame()
 }
 
 var getInput = function(){
@@ -44,21 +45,33 @@ var getInput = function(){
                 validate: function(value){
                     if (value.length != 1){
                         return "\nPlease enter 1 character."
-                    } else {
-                        var pass = value.match(/^[a-zA-Z]+$/);
-                        if (!pass){
-                            return "\nCharacter must be a letter."
-                        }
+                    } 
+                
+                    var pass = value.match(/^[a-zA-Z]+$/);
+                    if (!pass){
+                        return "\nCharacter must be a letter."
                     }
+
+                    if (lettersGuessed.includes(value)){
+                        return "\nLetter has already been guessed."
+                    }
+                    
                     return true;
                 }
             }
         ]).then(function(data) {
             numGuesses--
-            checkGuess(data.guess);
+            var currentGuess = data.guess.toLowerCase()
+            lettersGuessed.push(currentGuess)
+            wordObj.checkGuess(currentGuess);
             //recursion, call funciton again until game is over
-            //TODO: check to see if won before guesses run out
-            getInput();
+            //check to see if won before guesses run out
+            if (wordObj.isSolved) {
+                console.log("You won!")  
+                resetGame()  
+            } else {
+                getInput();
+            }
         })
     } else {
         //game over - ran out of guesses - lost the game

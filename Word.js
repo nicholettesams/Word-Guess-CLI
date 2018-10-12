@@ -22,6 +22,14 @@ var Word = function(word){
         }
         console.log(this.output.join(" "))
     }
+    this.isSolved = function(){
+        for (i = 0; i < this.letters.length; i++) {
+            if (!letters[i].isGuessed){
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
 module.exports = Word;

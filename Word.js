@@ -5,10 +5,12 @@ var Word = function(wordArr){
     this.letters = []
     this.getWord = function(){
         //A function that returns a string representing the word. This should call the function on each letter object (the first function defined in `Letter.js`) that displays the character or an underscore and concatenate those together.
-        for (var i = 0; i < worrdArr.length; i++){
+        for (var i = 0; i < wordArr.length; i++){
             var letter = new Letter(wordArr[i])
-            this.letters.push(letter)
+            this.letters.push(letter.getCharacter())
         }
+
+        return this.letters
     }
     this.checkGuess = function(guess){
         //A function that takes a character as an argument and calls the guess function on each letter object (the second function defined in `Letter.js`)

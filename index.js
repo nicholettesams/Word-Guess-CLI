@@ -6,7 +6,7 @@ var wordsArr = ["goo goo dolls", "bon jovi", "hootie and the blowfish",
                 "jewel", "kris kross", "chumbawamba", "soul asylum", 
                 "houe of pain","britney spears", "christina agulera", 
                 "envogue", "janet jackson", "pearl jam", "alanis morissette", 
-                "matchbox 20", "blind melon", "third eye blind", 
+                "blind melon", "third eye blind", 
                 "the offspring", "foo fighters", "nine inch nails", 
                 "stone temple pilots", "vanilla ice", "savage garden", 
                 "the verve", "nirvana", "radiohead", "mariah carey", 
@@ -44,15 +44,24 @@ var getInput = function(){
                 validate: function(value){
                     if (value.length != 1){
                         return "\nPlease enter 1 character."
+                    } else {
+                        var pass = value.match(/^[a-zA-Z]+$/);
+                        if (!pass){
+                            return "\nCharacter must be a letter."
+                        }
                     }
+                    return true;
                 }
             }
         ]).then(function(data) {
             numGuesses--
             checkGuess(data.guess);
+            //recursion, call funciton again until game is over
+            getInput();
         })
     } else {
         //game over
         resetGame()
     }
 }
+

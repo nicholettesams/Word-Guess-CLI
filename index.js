@@ -36,48 +36,61 @@ var resetGame = function(){
 }
 
 var getInput = function(){
-    if (numGuesses){
-        inquirer.prompt([
-            {
-                type: "input",
-                name: "guess",
-                message: "Enter a letter.",
-                validate: function(value){
-                    if (value.length != 1){
-                        return "\nPlease enter 1 character."
-                    } 
-                
-                    var pass = value.match(/^[a-zA-Z]+$/);
-                    if (!pass){
-                        return "\nCharacter must be a letter."
-                    }
+   
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "guess",
+            message: "Enter a letter.",
+            validate: function(value){
+                //validate input before "then" so user can be prompted for valid input
 
-                    if (lettersGuessed.includes(value)){
-                        return "\nLetter has already been guessed."
-                    }
-                    
-                    return true;
+                if (value.length != 1){
+                    return "\nPlease enter 1 character."
+                } 
+            
+                if (!value.match(/^[a-zA-Z]+$/)){
+                    return "\nCharacter must be a letter."
                 }
+
+                if (lettersGuessed.includes(value)){
+                    return "\nLetter has already been guessed."
+                }
+                
+                return true;
             }
-        ]).then(function(data) {
-            numGuesses--
-            var currentGuess = data.guess.toLowerCase()
-            lettersGuessed.push(currentGuess)
-            wordObj.checkGuess(currentGuess);
-            //recursion, call funciton again until game is over
-            //check to see if won before guesses run out
-            if (wordObj.isSolved) {
-                console.log("You won!")  
-                resetGame()  
-            } else {
+        }
+    ]).then(function(data) {
+        //Decrease the amount of guesses left
+        numGuesses--
+        
+        //Get current guess from data object and make sure it's always lower case
+        var currentGuess = data.guess.toLowerCase()
+
+        //store the current guess for future validation
+        lettersGuessed.push(currentGuess)
+
+        //Check to see if guess is in the word
+        wordObj.checkGuess(currentGuess);
+
+        //check to see if won
+        if (wordObj.isSolved) {
+            console.log("You won!")  
+            resetGame()  
+        } else {
+            //recursion, call function again until out of guesses
+            if (numGuesses){
                 getInput();
+            } else {
+                //game over - ran out of guesses - lost the game
+                console.log("You lost!")
+                resetGame()
             }
-        })
-    } else {
-        //game over - ran out of guesses - lost the game
-        console.log("You lost!")
-        resetGame()
-    }
+        }
+    })
+
+        
+    
 }
 
 var runGame = function() {
@@ -86,6 +99,7 @@ var runGame = function() {
     getRandomWord();
 
     //Prompts the user for each guess and keeps track of the user's remaining guesses
+    //This function uses recursion and will call itself until user wins or until numGuesses = 0
     getInput();
 }
 

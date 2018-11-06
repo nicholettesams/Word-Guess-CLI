@@ -1,7 +1,7 @@
 {
-  "name": "Word-Guess-CLI",
+  "name": "word-guess-cli",
   "version": "1.0.0",
-  "description": "Command line word guess game",
+  "description": "Word Guess CLI",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,14 +10,13 @@
     "type": "git",
     "url": "git+https://github.com/nicholettesams/Word-Guess-CLI.git"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Niki Sams",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/nicholettesams/Word-Guess-CLI/issues"
   },
   "homepage": "https://github.com/nicholettesams/Word-Guess-CLI#readme",
   "dependencies": {
-    "inquire": "^0.4.8"
+    "inquirer": "^6.2.0"
   }
 }

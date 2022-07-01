@@ -11,4 +11,6 @@ A Letter constructor was created to contain properties for each Letter in a word
 Node.js, inquire NPM module
 
 ## How to Play
+In the command line type "npm run start".
+
 The game only contains single word answers.  The user will be presented with a "blank" word made up of all underscores.  The user guesses one letter at a time.  After each guess, the guessed letter will either be revealed in the word or the number of lives remaining will decrease.  You start with a total of 10 lives at the beginning of each game.  If you run out of lives before you guess the word, you lose.  If you guess the word, you win!  
